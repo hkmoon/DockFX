@@ -25,6 +25,7 @@ import java.util.Stack;
 
 import com.sun.javafx.stage.StageHelper;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -43,6 +44,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import org.dockfx.pane.DockPaneManager;
 
 /**
  * Base class for a dock node title bar that provides the mouse dragging functionality, captioning,
@@ -85,6 +87,7 @@ public class DockTitleBar extends HBox implements EventHandler<MouseEvent> {
           dockNode.setMaximized(!dockNode.isMaximized());
         } else {
           dockNode.setFloating(true);
+          Platform.runLater(() -> DockPaneManager.createUndockedWindow(dockNode));
         }
       }
     });
@@ -425,6 +428,11 @@ public class DockTitleBar extends HBox implements EventHandler<MouseEvent> {
       if (dockPane != null) {
         dockPane.removeEventFilter(MouseEvent.MOUSE_DRAGGED, this);
         dockPane.removeEventFilter(MouseEvent.MOUSE_RELEASED, this);
+      }
+
+      if (!dockNode.isDocked()) {
+        Platform.runLater(() -> DockPaneManager.createUndockedWindow(dockNode));
+        Platform.runLater(DockPaneManager::checkEmptyPanes);
       }
     }
   }

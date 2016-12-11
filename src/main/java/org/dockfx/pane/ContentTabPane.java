@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 
 /**
@@ -24,6 +23,7 @@ public class ContentTabPane extends TabPane implements ContentPane {
 
   public ContentTabPane() {
     this.setStyle("-fx-skin: \"org.dockfx.pane.skin.ContentTabPaneSkin\";");
+    setPrefSize(100.0, 100.0);
   }
 
   public Type getType() {
@@ -89,6 +89,8 @@ public class ContentTabPane extends TabPane implements ContentPane {
 
   public void addNode(Node root, Node sibling, Node node, DockPos dockPos) {
     DockNode newNode = (DockNode) node;
-    getTabs().add(new DockNodeTab(newNode));
+    final DockNodeTab tab = new DockNodeTab(newNode);
+    getTabs().add(tab);
+    getSelectionModel().select(tab);
   }
 }

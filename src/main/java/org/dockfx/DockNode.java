@@ -645,7 +645,7 @@ public class DockNode extends VBox implements EventHandler<MouseEvent> {
   };
 
   public final boolean isTabbed() {
-    return floatingProperty.get();
+    return tabbedProperty.get();
   }
 
 
