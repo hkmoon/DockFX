@@ -1,14 +1,8 @@
 package org.dockfx.pane;
 
-import javafx.beans.InvalidationListener;
-import javafx.beans.binding.Bindings;
 import org.dockfx.DockNode;
 
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 
 /**
@@ -32,6 +26,7 @@ public class DockNodeTab extends Tab {
     setGraphic(dockNode.getDockTitleBar());
     setContent(dockNode);
     dockNode.tabbedProperty().set(true);
+    dockNode.setPrefSize(100.0, 100.0);
   }
 
   public String getTitle() {

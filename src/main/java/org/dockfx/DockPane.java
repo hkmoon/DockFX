@@ -25,10 +25,8 @@ import java.util.Stack;
 
 import com.sun.javafx.css.StyleManager;
 
-import org.dockfx.pane.ContentPane;
-import org.dockfx.pane.ContentSplitPane;
-import org.dockfx.pane.ContentTabPane;
-import org.dockfx.pane.DockNodeTab;
+import javafx.application.Platform;
+import org.dockfx.pane.*;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -366,7 +364,10 @@ public class DockPane extends StackPane implements EventHandler<DockEvent> {
 
     ContentPane pane = (ContentPane) root;
     if (pane == null) {
-      pane = new ContentSplitPane(node);
+      ContentTabPane contentTabPane = new ContentTabPane();
+      pane = new ContentSplitPane(contentTabPane);
+      contentTabPane.setContentParent(pane);
+      contentTabPane.addNode(null, null, node, dockPos);
       root = (Node) pane;
       this.getChildren().add(root);
       return;
@@ -422,6 +423,11 @@ public class DockPane extends StackPane implements EventHandler<DockEvent> {
           pane = split;
         }
 
+        ContentTabPane contentTabPane = new ContentTabPane();
+        contentTabPane.setContentParent(pane);
+        pane.addNode(root, sibling, contentTabPane, dockPos);
+        pane = contentTabPane;
+
       } else if (pane instanceof ContentTabPane) {
         ContentSplitPane split = (ContentSplitPane) pane.getContentParent();
 
@@ -445,12 +451,16 @@ public class DockPane extends StackPane implements EventHandler<DockEvent> {
         }
 
         split.setOrientation(requestedOrientation);
-        pane = split;
+        ContentTabPane contentTabPane = new ContentTabPane();
+        contentTabPane.setContentParent(split);
+        split.addNode(root, sibling, contentTabPane, dockPos);
+        pane = contentTabPane;
       }
     }
 
     // Add a node to the proper pane
     pane.addNode(root, sibling, node, dockPos);
+    Platform.runLater(DockPaneManager::checkEmptyPanes);
   }
 
   /**
