@@ -1,8 +1,16 @@
 package org.dockfx;
 
+import java.util.Map;
+
 /**
- * To support the delayed open process for some specific applications, this interface implementation is used.
+ * To support the delayed open process for some specific applications, this interface implementation
+ * is used.
  */
+@FunctionalInterface
 public interface DelayOpenHandler {
-  public DockNode open(String nodeName);
+    DockNode open(String nodeId,
+            String nodeTitle,
+            double width,
+            double height,
+            Map<String, Object> properties);
 }

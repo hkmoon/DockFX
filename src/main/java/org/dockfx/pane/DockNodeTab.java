@@ -12,33 +12,32 @@ import javafx.scene.control.Tab;
  */
 public class DockNodeTab extends Tab {
 
-  final private DockNode dockNode;
+    final private DockNode dockNode;
 
-  final private SimpleStringProperty title;
+    final private SimpleStringProperty title;
 
-  public DockNodeTab(DockNode node) {
-    this.dockNode = node;
-    setClosable(false);
+    public DockNodeTab(DockNode node) {
+        this.dockNode = node;
+        setClosable(false);
 
-    title = new SimpleStringProperty("");
-    title.bind(dockNode.titleProperty());
+        title = new SimpleStringProperty("");
+        title.bind(dockNode.titleProperty());
 
-    setGraphic(dockNode.getDockTitleBar());
-    setContent(dockNode);
-    dockNode.tabbedProperty().set(true);
-	dockNode.setNodeTab( this );
-  }
+        setGraphic(dockNode.getDockTitleBar());
+        setContent(dockNode);
+        dockNode.tabbedProperty().set(true);
+        dockNode.setNodeTab(this);
+    }
 
-  public String getTitle() {
-    return title.getValue();
-  }
+    public String getTitle() {
+        return title.getValue();
+    }
 
-  public SimpleStringProperty titleProperty() {
-    return title;
-  }
+    public SimpleStringProperty titleProperty() {
+        return title;
+    }
 
-  public void select()
-  {
-	getTabPane().getSelectionModel().select( this );
-  }
+    public void select() {
+        getTabPane().getSelectionModel().select(this);
+    }
 }

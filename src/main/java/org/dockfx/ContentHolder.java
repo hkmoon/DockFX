@@ -8,99 +8,70 @@ import java.util.Properties;
  *
  * @author HongKee Moon
  */
-public class ContentHolder
-{
-	/**
-	 * The enum ContentHolder Type.
-	 */
-	public enum Type {
-		/**
-		 * The SplitPane.
-		 */
-		SplitPane,
-		/**
-		 * The TabPane.
-		 */
-		TabPane,
-		/**
-		 * The Collection.
-		 */
-		Collection,
-		/**
-		 * The FloatingNode.
-		 */
-		FloatingNode,
-		/**
-		 * The DockNode.
-		 */
-		DockNode
-	}
+public class ContentHolder {
+    /**
+     * The enum ContentHolder Type.
+     */
+    public enum Type {
+        /**
+         * The SplitPane.
+         */
+        SplitPane,
+        /**
+         * The TabPane.
+         */
+        TabPane,
+        /**
+         * The Collection.
+         */
+        Collection,
+        /**
+         * The DockNode.
+         */
+        DockNode
+    }
 
-	String name;
-	Properties properties;
-	LinkedList children;
-	Type type;
+    private Properties properties = new Properties();
+    private LinkedList children = new LinkedList();
+    private Type type;
 
-	public ContentHolder()
-	{
+    public ContentHolder() {
 
-	}
+    }
 
-	public ContentHolder( String name, Type type )
-	{
-		this.name = name;
-		this.properties = new Properties();
-		this.children = new LinkedList();
-		this.type = type;
-	}
+    public ContentHolder(Type type) {
+        this.type = type;
+    }
 
-	public void addProperty( Object key, Object value )
-	{
-		properties.put( key, value );
-	}
+    public void addProperty(Object key, Object value) {
+        properties.put(key, value);
+    }
 
-	public void addChild( Object child )
-	{
-		children.add( child );
-	}
+    public void addChild(Object child) {
+        children.add(child);
+    }
 
-	public String getName()
-	{
-		return name;
-	}
+    public Properties getProperties() {
+        return properties;
+    }
 
-	public void setName( String name )
-	{
-		this.name = name;
-	}
+    public void setProperties(Properties properties) {
+        this.properties = properties;
+    }
 
-	public Properties getProperties()
-	{
-		return properties;
-	}
+    public LinkedList getChildren() {
+        return children;
+    }
 
-	public void setProperties( Properties properties )
-	{
-		this.properties = properties;
-	}
+    public void setChildren(LinkedList children) {
+        this.children = children;
+    }
 
-	public LinkedList getChildren()
-	{
-		return children;
-	}
+    public Type getType() {
+        return type;
+    }
 
-	public void setChildren( LinkedList children )
-	{
-		this.children = children;
-	}
-
-	public Type getType()
-	{
-		return type;
-	}
-
-	public void setType( Type type )
-	{
-		this.type = type;
-	}
+    public void setType(Type type) {
+        this.type = type;
+    }
 }

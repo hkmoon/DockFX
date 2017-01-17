@@ -139,6 +139,14 @@
   -fx-border-color: -fx-outer-border;
 }
 
+.dock-pane-title-bar {
+  -fx-background-color: -fx-background;
+  -fx-padding: 2;
+  -fx-spacing: 3;
+  -fx-border-width: 0;
+  -fx-border-color: -fx-outer-border;
+}
+
 .dock-title-label {
   -fx-background-color: transparent;
   -fx-graphic: url(docknode.png);
@@ -155,6 +163,10 @@
  * excessively wide buttons.
  */
 .dock-title-bar .button {
+  -fx-padding: 1 4 1 4;
+}
+
+.dock-pane-title-bar .button {
   -fx-padding: 1 4 1 4;
 }
 

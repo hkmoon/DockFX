@@ -20,6 +20,7 @@
  */
 package org.dockfx.viewControllers;
 
+import java.util.Map;
 import org.dockfx.DockTitleBar;
 
 /**
@@ -39,4 +40,7 @@ abstract public class DockFXViewController {
         return dockTitleBar;
     }
 
+    public Map<String, Object> getState() {
+        return null;
+    }
 }
