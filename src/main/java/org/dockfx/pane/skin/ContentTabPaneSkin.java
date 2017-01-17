@@ -950,22 +950,7 @@ public class ContentTabPaneSkin extends BehaviorSkinBase<TabPane, TabPaneBehavio
                 setScrollOffset(visibleAreaEndX - selectedTabEndX);
             }
         }
-      };
-      closeBtn.setAccessibleRole(AccessibleRole.BUTTON);
-      closeBtn.setAccessibleText(getString("Accessibility.title.TabPane.CloseButton"));
-      closeBtn.getStyleClass().setAll("tab-close-button");
-      closeBtn.setOnMousePressed(new EventHandler<MouseEvent>() {
-        @Override
-        public void handle(MouseEvent me) {
-          Tab tab = getTab();
-          TabPaneBehavior behavior = getBehavior();
-          if (behavior.canCloseTab(tab)) {
-            behavior.closeTab(tab);
-            setOnMousePressed(null);
-          }
-        }
-      });
-
+        
         public double getScrollOffset() {
             return scrollOffset;
         }
