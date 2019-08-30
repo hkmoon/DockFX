@@ -1,0 +1,25 @@
+
+//***********************************************************************************
+// SPOTLESS:
+
+project.ext.codeformatfile = (new File(projectDir,'/gradle/codeformat.eclipse.xml')).getAbsolutePath()
+
+spotless {
+    java {
+        importOrder(['java', 'javax', 'com', 'org'])
+        removeUnusedImports() // removes any unused imports
+        eclipseFormatFile project.ext.codeformatfile  
+    }
+}
+
+task downloadCodeFormat(type: Download) {
+    src 'https://github.com/ClearControl/master/blob/master/codeformat.eclipse.xml?raw=true'
+    dest project.ext.codeformatfile
+    overwrite false
+    onlyIfModified true
+    tempAndMove true
+}
+
+// Making sure that we download the file:
+compileJava.dependsOn(downloadCodeFormat)
+assemble.dependsOn(downloadCodeFormat)

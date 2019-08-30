@@ -1,0 +1,47 @@
+
+bintrayUpload.dependsOn clean
+
+if(hasProperty('bintray_user') && hasProperty('bintray_key') )
+{
+  bintray {
+    // Credential properties must be set in "~/.gradle/gradle.properties" :
+    user = bintray_user
+    key =  bintray_key
+
+    //When uploading configuration files:
+    publications = ['maven'] 
+    
+    //Whether to run this as dry-run, without deploying:
+    dryRun = false 
+    
+    //If version should be auto published after an upload:
+    publish = true 
+    
+    pkg {
+      // bintray repo name:
+      repo = bintray_repo
+      
+      //An optional organization name when the repo belongs to one of the user's orgs
+      userOrg = bintray_userorg 
+      
+      // package name:
+      name = bintray_packagename
+      
+      // package description:
+      desc = bintray_packagename
+      
+      licenses = ['LGPL-3.0']
+      publicDownloadNumbers = true
+      
+      vcsUrl = bintray_vcsurl
+
+      version {
+        //Bintray logical version name
+        name = project.ext.versionsMap[project.name] 
+        desc = 'version '+project.ext.versionsMap[project.name]
+        released  = new java.util.Date()
+        vcsTag = project.ext.versionsMap[project.name]         
+      }
+    }
+  }
+}

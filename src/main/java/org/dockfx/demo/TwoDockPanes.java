@@ -21,9 +21,6 @@
 
 package org.dockfx.demo;
 
-
-import org.dockfx.DockPane;
-
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -35,21 +32,27 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
 import org.dockfx.DockNode;
+import org.dockfx.DockPane;
 import org.dockfx.DockPos;
 
 /**
- * This app creates two dock panes, one over the other. Nodes can be added to either.
- * If dock pane A is "exclusive", then A will ignore nodes from B (because A is 
- * exclusive and won't accept nodes from any other dockpane, and B will ignore nodes
- * from A because A is exclusive and won't let go of them.
+ * This app creates two dock panes, one over the other. Nodes can be added to
+ * either. If dock pane A is "exclusive", then A will ignore nodes from B
+ * (because A is exclusive and won't accept nodes from any other dockpane, and B
+ * will ignore nodes from A because A is exclusive and won't let go of them.
  * 
- * If neither A or B is exclusive, Issue #24 from RobertBColton/DockFX will occur. 
+ * If neither A or B is exclusive, Issue #24 from RobertBColton/DockFX will
+ * occur.
+ * 
  * @author will
  */
-public class TwoDockPanes extends Application {
+public class TwoDockPanes extends Application
+{
 
-  public static void main(String[] args) {
+  public static void main(String[] args)
+  {
     launch(args);
   }
 
@@ -57,21 +60,22 @@ public class TwoDockPanes extends Application {
   private DockPane dp1;
   private DockPane dp2;
   private int counter = 0;
-  private final Image dockImage = 
-    new Image(DockFX.class.getResource("docknode.png").toExternalForm());
+  private final Image dockImage =
+                                new Image(DockFX.class.getResource("docknode.png")
+                                                      .toExternalForm());
 
   @SuppressWarnings("unchecked")
   @Override
-  public void start(Stage primaryStage) {
+  public void start(Stage primaryStage)
+  {
     primaryStage.setTitle("DockFX");
-   
+
     vbox = new VBox();
 
     dp1 = makeDockPane("A");
     dp2 = makeDockPane("B");
 
     dp1.setExclusive(true);
-    
 
     primaryStage.setScene(new Scene(vbox, 800, 500));
     primaryStage.sizeToScene();
@@ -82,7 +86,8 @@ public class TwoDockPanes extends Application {
     DockPane.initializeDefaultUserAgentStylesheet();
   }
 
-  private DockPane makeDockPane(String name) {
+  private DockPane makeDockPane(String name)
+  {
     ToolBar bar = new ToolBar();
     Label lab = new Label(name);
     Button addButton = new Button("Add");
@@ -100,14 +105,14 @@ public class TwoDockPanes extends Application {
     return dp;
   }
 
-  private void addNode(DockPane dp, String dockName) {
+  private void addNode(DockPane dp, String dockName)
+  {
     int n = ++counter;
     String title = dockName + "Node " + counter;
     TextArea ta = new TextArea();
-    ta.setText(title + "\n\nJust some test data"); 
+    ta.setText(title + "\n\nJust some test data");
     DockNode dn = new DockNode(ta, title, new ImageView(dockImage));
     dn.dock(dp, DockPos.BOTTOM);
   }
-
 
 }
