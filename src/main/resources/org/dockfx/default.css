@@ -148,6 +148,11 @@
 }
 
 .dock-title-label {
+  -fx-font-family: 'Verdana', Arial, sans-serif;
+  -fx-alignment: CENTER;
+  -fx-font-size: 13px;
+  -fx-font-weight: bold;
+
   -fx-background-color: transparent;
   -fx-graphic: url(docknode.png);
   -fx-padding: 0 0 3 0;
@@ -189,4 +194,18 @@
 
 .dock-minimize-button {
   -fx-graphic: url(minimize.png);
+}
+
+.tab .tab-label {
+  -fx-font-family: 'Verdana', Arial, sans-serif;
+  -fx-alignment: CENTER;
+  -fx-font-size: 13px;
+  -fx-font-weight: bold;
+}
+
+.tab:selected .tab-label {
+  -fx-font-family: 'Verdana', Arial, sans-serif;
+  -fx-alignment: CENTER;
+  -fx-font-size: 13px;
+  -fx-font-weight: bold;
 }
