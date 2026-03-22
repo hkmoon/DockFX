@@ -57,7 +57,6 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import com.sun.javafx.css.StyleManager;
 
 import org.dockfx.pane.ContentPane;
 import org.dockfx.pane.ContentSplitPane;
@@ -230,6 +229,11 @@ public class DockPane extends StackPane
   {
     super();
 
+    if (!this.getStylesheets().contains(defaultStylesheet))
+    {
+      this.getStylesheets().add(defaultStylesheet);
+    }
+
     this.addEventHandler(DockEvent.ANY, this);
     this.addEventFilter(DockEvent.ANY, new EventHandler<DockEvent>()
     {
@@ -393,14 +397,20 @@ public class DockPane extends StackPane
   }
 
   /**
-   * Helper function to add the default style sheet of DockFX to the user agent
-   * style sheets.
+   * The default stylesheet URL for DockFX.
+   */
+  private static final String defaultStylesheet =
+      DockPane.class.getResource("default.css").toExternalForm();
+
+  /**
+   * Helper function to ensure the default style sheet of DockFX is applied.
+   * The stylesheet is now automatically added to each DockPane instance via
+   * the constructor. This method is retained for backward compatibility.
    */
   public final static void initializeDefaultUserAgentStylesheet()
   {
-    StyleManager.getInstance()
-                .addUserAgentStylesheet(DockPane.class.getResource("default.css")
-                                                      .toExternalForm());
+    // Stylesheet is automatically applied in the DockPane constructor.
+    // This method is kept for API compatibility.
   }
 
   /**
