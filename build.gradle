@@ -1,66 +1,44 @@
 plugins {
-	id "com.jfrog.bintray" version "1.8.3"
-	id "com.diffplug.gradle.spotless" version "3.1.0"
-	id "de.undercouch.download" version "3.4.3"
+	id 'java-library'
+	id 'application'
+	id 'maven-publish'
+	id 'org.openjfx.javafxplugin' version '0.1.0'
 }
 
-apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'idea'
-apply plugin: 'maven'
-apply plugin: 'maven-publish'
+group = 'org.dockfx'
+version = '0.2.0'
 
+java {
+	sourceCompatibility = JavaVersion.VERSION_21
+	targetCompatibility = JavaVersion.VERSION_21
 
-project.ext.masterfile = (new File(projectDir,'/gradle/master.gradle')).getAbsolutePath()
+	withSourcesJar()
+	withJavadocJar()
+}
 
-// Attempts to download master gradle file
-if(!hasProperty('do_not_update_master_file'))
-try {
-	download {
-		src 'https://github.com/ClearControl/master/blob/master/master.gradle?raw=true'
-		dest project.ext.masterfile
-		overwrite true
-		onlyIfModified true
-		tempAndMove true
+javafx {
+	version = '21.0.2'
+	modules = ['javafx.controls', 'javafx.fxml', 'javafx.graphics', 'javafx.base', 'javafx.web']
+}
+
+sourceSets {
+	main {
+		java { srcDir 'src/main/java' }
+		resources { srcDir 'src/main/resources' }
 	}
-}
-catch (Throwable e)
-{
-}
-
-apply from: project.ext.masterfile
-
-//***********************************************************************************
-// JAVA CODE BUILDING
-
-sourceSets
-{
-	main
-	{
-		java
-		{ srcDir 'src/main/java' }
-		resources
-		{ srcDir 'src/main/resources' }
-	}
-	test
-	{
-		java
-		{ srcDir 'src/test/java' }
-		resources
-		{ srcDir 'src/test/resources' }
+	test {
+		java { srcDir 'src/test/java' }
+		resources { srcDir 'src/test/resources' }
 	}
 }
 
+tasks.withType(AbstractCopyTask).configureEach {
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
-
-test
-{
+test {
 	testLogging.showStandardStreams = true
-	testLogging
-	{ events "passed", "skipped", "failed" }
+	testLogging { events "passed", "skipped", "failed" }
 
 	exclude '**/demo/**'
 	exclude '**/run/**'
@@ -68,69 +46,24 @@ test
 	maxHeapSize = "4G"
 }
 
-dependencies
-{
-
-
-}
-
-repositories
-{
-	// Main repos:
+repositories {
 	mavenLocal()
 	mavenCentral()
-	jcenter()
 }
 
-
-task sourcesJar(type: Jar, dependsOn:classes) {
-	classifier = 'sources'
-	from sourceSets.main.allSource
+tasks.withType(Javadoc).configureEach {
+	options.addStringOption('Xdoclint:none', '-quiet')
 }
-
-task javadocJar(type: Jar, dependsOn:javadoc) {
-	classifier = 'javadoc'
-	from javadoc.destinationDir
-}
-
-if (JavaVersion.current().isJava8Compatible()) {
-	allprojects {
-		tasks.withType(Javadoc) {
-			options.addStringOption('Xdoclint:none', '-quiet')
-		}
-	}
-}
-
-
-//***********************************************************************************
-// PUBLISHING
-
-group   = project.ext.groupname
-version = project.ext.versionsMap[project.name]
-
-artifacts
-		{
-			archives sourcesJar
-			archives javadocJar
-		}
 
 publishing {
 	publications {
 		maven(MavenPublication) {
 			from components.java
-			artifact sourcesJar { classifier "sources" }
 		}
 	}
 }
 
-
-
-
-
-
-
-
-
-
-
-
+application {
+	mainClass = 'org.dockfx.demo.DockFX'
+	mainModule = 'org.dockfx'
+}

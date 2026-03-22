@@ -27,7 +27,7 @@ import javafx.geometry.Point3D;
 import javafx.scene.Node;
 import javafx.scene.input.PickResult;
 
-import com.sun.javafx.scene.input.InputEventUtils;
+
 
 /**
  * Base class for DockFX events. Each DockFX event has associated an event
@@ -376,9 +376,18 @@ public class DockEvent extends Event
     this.pickResult =
                     pickResult != null ? pickResult
                                        : new PickResult(target, x, y);
-    final Point3D p =
-                    InputEventUtils.recomputeCoordinates(this.pickResult,
-                                                         null);
+    final Point3D p;
+    Node intersectedNode = this.pickResult.getIntersectedNode();
+    if (intersectedNode != null && intersectedNode.getScene() != null)
+    {
+      Point3D ip = this.pickResult.getIntersectedPoint();
+      p = intersectedNode.localToScene(ip.getX(), ip.getY(), ip.getZ());
+    }
+    else
+    {
+      Point3D ip = this.pickResult.getIntersectedPoint();
+      p = ip != null ? ip : Point3D.ZERO;
+    }
     this.x = p.getX();
     this.y = p.getY();
     this.z = p.getZ();
